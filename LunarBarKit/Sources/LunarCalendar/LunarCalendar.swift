@@ -27,9 +27,23 @@ public final class LunarCalendar {
    Example: ["1901": ["0106": 22]], Jan 6th, 1901 is Xiaohan (小寒).
    */
   private let allData: [String: SolarTerms]? = {
-    guard let url = Bundle.module.url(forResource: "data", withExtension: "json") else {
+    // guard let url = Bundle.module.url(forResource: "data", withExtension: "json") else {
+    //   fatalError("Missing data.json to continue")
+    // }
+
+
+    let mainBundle = Bundle(for: LunarCalendar.self)
+
+    guard let path = mainBundle.path(forResource: "LunarBarKitBundle", ofType: "bundle") else {
+            return nil
+    }
+    guard let bundle = Bundle(path: path) else {
+        return nil
+    }
+    guard let url: URL = bundle.url(forResource: "data", withExtension: "json") else {
       fatalError("Missing data.json to continue")
     }
+
 
     guard let data = try? Data(contentsOf: url) else {
       fatalError("Failed to read data.json as Data")
